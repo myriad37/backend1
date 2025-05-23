@@ -71,3 +71,13 @@ CREATE TABLE bank_summary (
   month DATE NOT NULL DEFAULT CURRENT_DATE,
   amount NUMERIC NOT NULL
 );
+-- request to the admin
+CREATE TABLE IF NOT EXISTS requests (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES members(id),
+  name VARCHAR(100) NOT NULL,
+  event_type VARCHAR(100),
+  amount NUMERIC(10, 2),
+  status VARCHAR(10) DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
